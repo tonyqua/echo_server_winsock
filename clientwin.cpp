@@ -4,6 +4,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#pragma comment(lib, "ws2_32.lib")
+
 int main(int argc, char** argv) {
     WSADATA wsaData = {0};
     SOCKET clientSock;
@@ -37,18 +39,22 @@ int main(int argc, char** argv) {
         return -1;
     }
 
-    printf("Connected! Enter Message: ");
+    printf("Connected! Enter numbers separated by spaces (e.g., 1 2 3): ");
     char buff[1024];
     memset(buff, 0, sizeof(buff));
     fgets(buff, sizeof(buff) - 1, stdin);
+    buff[strcspn(buff, "\n")] = 0; // Удаляем символ новой строки
+
+    // Отправка чисел серверу
     send(clientSock, buff, strlen(buff), 0);
 
+    // Получение суммы от сервера
     int iRet = recv(clientSock, buff, sizeof(buff) - 1, 0);
     if (iRet > 0) {
         buff[iRet] = '\0';
-        printf("Echo Message: %s\n", buff);
+        printf("Sum from server: %s\n", buff);
     } else {
-        printf("Recv failed or connection closed.\n");
+        printf("Recv failed or connection closed: %d\n", WSAGetLastError());
     }
 
     closesocket(clientSock);
