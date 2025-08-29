@@ -7,7 +7,7 @@
 gcc -o sever serverwin.cpp -lws2_32
 gcc -o client clientwin.cpp -lws2_32
 
-Запуск з двох різних терміналів.
+Запуск з двох різних терміналів Cygwin.
 Для зупуску сервера:
 ./server 8000
 
