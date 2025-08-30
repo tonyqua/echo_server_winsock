@@ -46,7 +46,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    // Включаем опцию SO_REUSEADDR для повторного использования порта
+    // Включаємо опцію SO_REUSEADDR для повторного використання порту
     int opt = 1;
     if (setsockopt(sock, SOL_SOCKET, SO_REUSEADDR, (char *)&opt, sizeof(opt)) == SOCKET_ERROR) {
         printf("Setsockopt failed: %d\n", WSAGetLastError());
@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
         return -1;
     }
 
-    // Инициализация структур с помощью memset
+    // Ініціалізація структур за допомогою memset
     memset(&SvrAddr, 0, sizeof(SvrAddr));
     memset(&CliAddr, 0, sizeof(CliAddr));
 
@@ -100,32 +100,32 @@ int main(int argc, char **argv) {
                 buff[iRet] = '\0';
                 printf("Received: %s\n", buff);
 
-                // Вычисление суммы чисел
+                // Обчислення суми чисел
                 int sum = 0;
                 char* token = strtok(buff, " ");
                 while (token != NULL) {
-                    sum += atof(token); // Преобразуем строку в число
+                    sum += atof(token); // Перетворимо рядок на число
                     token = strtok(NULL, " ");
                 }
 
-                // Формирование ответа
+                // Формування відповіді
                 memset(buff, 0, sizeof(buff));
                 snprintf(buff, sizeof(buff), "%d", sum);
 
-                // 6) Отправка суммы клиенту
+                // 6) Надсилання суми клієнту
                 send(hClient, buff, strlen(buff), 0);
             } else if (iRet == 0) {
-                // Клиент отключился
+                // Клієнт відключився
                 printf("Client disconnected: %s:%d\n", inet_ntoa(CliAddr.sin_addr), ntohs(CliAddr.sin_port));
                 break;
             } else {
-                // Ошибка при получении данных
+                // Помилка при отриманні даних
                 printf("Recv failed: %d\n", WSAGetLastError());
                 break;
             }
         }
 
-        closesocket(hClient); // Закрываем клиентский сокет
+        closesocket(hClient); // Закриваємо клієнтський сокет
     }
 
     closesocket(sock);

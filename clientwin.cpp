@@ -43,12 +43,12 @@ int main(int argc, char** argv) {
     char buff[1024];
     memset(buff, 0, sizeof(buff));
     fgets(buff, sizeof(buff) - 1, stdin);
-    buff[strcspn(buff, "\n")] = 0; // Удаляем символ новой строки
+    buff[strcspn(buff, "\n")] = 0; // Видаляємо символ нового рядка
 
-    // Отправка чисел серверу
+    // Надсилання чисел серверу
     send(clientSock, buff, strlen(buff), 0);
 
-    // Получение суммы от сервера
+    // Отримання суми від сервера
     int iRet = recv(clientSock, buff, sizeof(buff) - 1, 0);
     if (iRet > 0) {
         buff[iRet] = '\0';
